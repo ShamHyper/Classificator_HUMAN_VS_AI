@@ -4,7 +4,8 @@ from tensorflow.keras.models import Sequential  # type: ignore
 from tensorflow.keras.layers import Dense, Flatten  # type: ignore
 from tensorflow.keras.preprocessing.image import ImageDataGenerator  # type: ignore
 
-ver = "0.2"
+ver = "0.3"
+epochs = 10 # CHANGE ME!
 
 print(f"H5-Trainer v{ver} | Starting training...")
 print("\nNum GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
@@ -46,7 +47,7 @@ validation_generator = train_datagen.flow_from_directory(
 test_datagen = ImageDataGenerator(rescale=1.0/255)
 
 test_generator = test_datagen.flow_from_directory(
-    'data/test', 
+    'data/train', 
     target_size=(224, 224),
     batch_size=32,
     class_mode='categorical',
@@ -56,7 +57,7 @@ test_generator = test_datagen.flow_from_directory(
 model.fit(
     train_generator, 
     validation_data=validation_generator, 
-    epochs=10  # changme
+    epochs=epochs
 )
 
 model.save('model_multiai.h5')
