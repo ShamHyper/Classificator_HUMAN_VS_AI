@@ -4,14 +4,15 @@ from tensorflow.keras.models import Sequential  # type: ignore
 from tensorflow.keras.layers import Dense, Flatten  # type: ignore
 from tensorflow.keras.preprocessing.image import ImageDataGenerator  # type: ignore
 
-ver = "0.3"
-epochs = 10 # CHANGE ME!
+ver = "0.4"
+epochs = 10
+datasets_sizes = (512, 512)
+input_shape_sizes = (512, 512, 3)
 
 print(f"H5-Trainer v{ver} | Starting training...")
 print("\nNum GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 
-base_model = VGG16(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
-
+base_model = VGG16(weights='imagenet', include_top=False, input_shape=(input_shape_sizes))
 base_model.trainable = False
 
 model = Sequential([
@@ -30,7 +31,7 @@ train_datagen = ImageDataGenerator(
 
 train_generator = train_datagen.flow_from_directory(
     'data/train', 
-    target_size=(224, 224),
+    target_size=datasets_sizes,
     batch_size=32,
     class_mode='categorical',
     subset='training'
@@ -38,20 +39,10 @@ train_generator = train_datagen.flow_from_directory(
 
 validation_generator = train_datagen.flow_from_directory(
     'data/train',  
-    target_size=(224, 224),
+    target_size=datasets_sizes,
     batch_size=32,
     class_mode='categorical',
     subset='validation'
-)
-
-test_datagen = ImageDataGenerator(rescale=1.0/255)
-
-test_generator = test_datagen.flow_from_directory(
-    'data/train', 
-    target_size=(224, 224),
-    batch_size=32,
-    class_mode='categorical',
-    shuffle=False  
 )
 
 model.fit(
@@ -60,7 +51,4 @@ model.fit(
     epochs=epochs
 )
 
-model.save('model_multiai.h5')
-
-test_loss, test_acc = model.evaluate(test_generator)
-print(f"Test Accuracy: {test_acc}")
+model.save('model.h5')
