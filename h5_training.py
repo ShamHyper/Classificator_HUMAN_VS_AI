@@ -1,15 +1,13 @@
 import tensorflow as tf
+from tensorflow.keras.applications import VGG16  # type: ignore  
+from tensorflow.keras.models import Sequential  # type: ignore
+from tensorflow.keras.layers import Dense, Flatten  # type: ignore
+from tensorflow.keras.preprocessing.image import ImageDataGenerator  # type: ignore
 
-ver = "0.1"
+ver = "0.2"
 
-print(f"H5-Trainer v{ver}|Starting training...")
-print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
-print(tf.config.list_physical_devices('GPU'))
-
-from tensorflow.keras.applications import VGG16  # type: ignore  # noqa: E402
-from tensorflow.keras.models import Sequential  # type: ignore  # noqa: E402
-from tensorflow.keras.layers import Dense, Flatten  # type: ignore # noqa: E402
-from tensorflow.keras.preprocessing.image import ImageDataGenerator  # type: ignore # noqa: E402
+print(f"H5-Trainer v{ver} | Starting training...")
+print("\nNum GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 
 base_model = VGG16(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
 

@@ -1,6 +1,8 @@
 *.png
 *.jpg
 *.jpeg
+*.h5
 
 venv/
 tmp/
+__pycache__

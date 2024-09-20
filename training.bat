@@ -30,7 +30,7 @@ call "%VENV_DIR%\Scripts\activate"
 
 echo Installing dependencies...
 %PYTHON% -m pip install pip==24.0
-%PYTHON% -m pip install -r requirements-training.txt
+%PYTHON% -m pip install -r requirements.txt
 
 %PYTHON% h5_training.py %*
 
